@@ -19,9 +19,7 @@ public class ReservationMainTest {
         ReservationDao reservationDao = new ReservationDaoSql();
         PassagerDaoSql passagerDao = new PassagerDaoSql();
         // Ma liste d'élèves qui va contenir la liste de résultats
-        List<Reservation> listeDreservations;
-        // je demande au DAO de me trouver tous les élèves de la BDD
-        listeDreservations = reservationDao.findAll(); 
+        List<Reservation> listeDreservations = reservationDao.findAll(); 
         
         Passager passager = passagerDao.findById(1);
         
@@ -33,15 +31,15 @@ public class ReservationMainTest {
 		reservationDao.create(tokyo);
         
         
-//        // mettre à jour l'élève n°3, je change sa note
-//        Reservation reservationAChanger = reservationDao.findById(55);
-//        // je mets à jour au niveau de l'OBJET la note
-//        reservationAChanger.setNumero("111");
-//        // je mets à jour au niveau BDD !!
-//        Reservation reservationMiseAJour = reservationDao.update(reservationAChanger);
-//        // Je supprime l'élève n°5
-//        Reservation reservationASupprimer = reservationDao.findById(55);
-//        reservationDao.delete(reservationASupprimer);
+        // mettre à jour l'élève n°3, je change sa note
+        Reservation reservationAChanger = reservationDao.findById(55);
+        // je mets à jour au niveau de l'OBJET la note
+        reservationAChanger.setNumero("111");
+        // je mets à jour au niveau BDD !!
+        Reservation reservationMiseAJour = reservationDao.update(reservationAChanger);
+        // Je supprime l'élève n°5
+        Reservation reservationASupprimer = reservationDao.findById(55);
+        reservationDao.delete(reservationASupprimer);
         
 	}
 

@@ -37,15 +37,15 @@ public class MainTest {
 
 		// Creation d'un clientPhysique
 
-		ClientPhysique clientPhysique = new ClientPhysique();
+		ClientPhysique clientPhysiqueTemp = new ClientPhysique();
 
-		clientPhysique.setNom("Mercury");
-		clientPhysique.setPrenom("Freddie");
-		clientPhysique.setNumeroTel("0685989636");
-		clientPhysique.setNumeroFax("0687898636");
-		clientPhysique.setEmail("Freddie.Mercury@dieu-vivant.com");
-		clientPhysique.setAdresse(adresse);
-		clientPhysique.setLogin(login);
+		clientPhysiqueTemp.setNom("Mercury");
+		clientPhysiqueTemp.setPrenom("Freddie");
+		clientPhysiqueTemp.setNumeroTel("0685989636");
+		clientPhysiqueTemp.setNumeroFax("0687898636");
+		clientPhysiqueTemp.setEmail("Freddie.Mercury@dieu-vivant.com");
+		clientPhysiqueTemp.setAdresse(adresse);
+		clientPhysiqueTemp.setLogin(login);
 		// Creation d'un client Moral
 
 		ClientMoral clientMoral = new ClientMoral();
@@ -58,7 +58,7 @@ public class MainTest {
 		clientMoral.setLogin(login);
 		
 		loginDaoSql.create(login);
-		clientPhysiqueDaoSql.create(clientPhysique);
+		clientPhysiqueDaoSql.create(clientPhysiqueTemp);
 		clientMoralDaoSql.create(clientMoral);
 
 	}

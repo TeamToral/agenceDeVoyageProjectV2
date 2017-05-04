@@ -11,28 +11,28 @@ public class MainTesteAnais {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Adresse adresse = new Adresse();
-		adresse.setAdresse(" 11 square de la sarcelle ");
-		adresse.setCodePostal("64140");
-		adresse.setVille("Pau");
-		adresse.setPays("France");
+		Adresse adresseTemp = new Adresse();
+		adresseTemp.setAdresse(" 11 square de la sarcelle ");
+		adresseTemp.setCodePostal("64140");
+		adresseTemp.setVille("Pau");
+		adresseTemp.setPays("France");
 
 		AdresseDaoSql adresseDaoSql = new AdresseDaoSql();
-		adresseDaoSql.create(adresse);
+		adresseDaoSql.create(adresseTemp);
 
 		// System.out.println(adresse);
-		adresse.setVille("moncul");
-		adresseDaoSql.update(adresse);
+		adresseTemp.setVille("moncul");
+		adresseDaoSql.update(adresseTemp);
 
-		Aeroport aeroport = new Aeroport();
-		aeroport.setNom(" CDG ");
+		Aeroport aeroportTemp = new Aeroport();
+		aeroportTemp.setNom(" CDG ");
 
 		AeroportDaoSQL aeroportDaoSql = new AeroportDaoSQL();
-		aeroportDaoSql.create(aeroport);
+		aeroportDaoSql.create(aeroportTemp);
 
-		System.out.println(aeroport);
-		aeroport.setNom("bibi");
-		aeroportDaoSql.update(aeroport);
+		System.out.println(aeroportTemp);
+		aeroportTemp.setNom("bibi");
+		aeroportDaoSql.update(aeroportTemp);
 
 	}
 }
