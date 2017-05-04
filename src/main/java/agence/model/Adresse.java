@@ -143,7 +143,7 @@ public class Adresse
     public String toString()
     {
         return "Adresse [adresse=" + adresse + ", codePostal=" + codePostal
-                + ", ville=" + ville + ", pays=" + pays + "]";
+                + ", ville=" + ville + ", pays=" + pays + "identifiant adresse=" + idAdd + "]";
     }
 
 }

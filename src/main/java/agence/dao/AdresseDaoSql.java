@@ -163,13 +163,13 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "password");
             
             // Créer ma requête d'insertion INSERT INTO
             PreparedStatement requete;
-            
+            String sql = "insert into adresse (adresse, codePostal, ville, pays)" + " VALUES(?,?,?,?)";
                 requete = conn
-                        .prepareStatement("insert into adresse (adresse, codePostal, ville, pays)" + " VALUES(?,?,?,?)");
+                        .prepareStatement(sql, new String[] { "id" }/*Statement.RETURN_GENERATED_KEYS*/);
 
 
             
@@ -224,8 +224,8 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
 		Connection conn = null;
         try
         {
-            Class.forName("com.mysql.jdbc.Drive");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "");
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "password");
 
             PreparedStatement ps = conn
                     .prepareStatement("update adresse set adresse=?,codePostal=?,ville=?,pays=? where idAdd = ?");
@@ -271,9 +271,9 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "password");
 
-            PreparedStatement ps = conn.prepareStatement("delete from adresse where id = ?");
+            PreparedStatement ps = conn.prepareStatement("delete from adresse where idAdd = ?");
             ps.setLong(1, adresse.getIdAdd());
 
             ps.executeUpdate();
