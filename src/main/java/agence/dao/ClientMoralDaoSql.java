@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package agence.dao;
 
 import java.sql.Connection;
@@ -11,9 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import agence.model.Adresse;
 import agence.model.Client;
 import agence.model.ClientMoral;
-import agence.model.ClientPhysique;
 
 /**
  * @author Seme
@@ -115,26 +113,61 @@ public class ClientMoralDaoSql extends ClientDaoSql
 	@Override
 	public void create(Client objet)
 	{
-Connection conn = null;
+		Connection conn = null;
 		
 		try{
 		
 		Class.forName("com.mysql.jdbc.Driver");
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "password");
         // Crééer ma requetes d'insertion INSERT INTO
+       
+        AdresseDaoSql adresseDaoSql=new AdresseDaoSql();
+        Adresse adresse = new Adresse();
+        adresse = adresseDaoSql.findById(objet.getAdresse().getIdAdd());
+        
         PreparedStatement requete;
        
         requete = conn
-                .prepareStatement("insert into client (nom,numTel,numFax,eMAil,siret,idAdd,idLog)" + " VALUES(?,?,?,?,?,?,?)");
+                .prepareStatement("insert into client (nom,numTel,numFax,eMAil,siret,idAdd,idLog)" + " VALUES(?,?,?,?,?,?,?)",new String[] { "id" }/*Statement.RETURN_GENERATED_KEYS*/);
         	requete.setString(1, objet.getNom());
         	requete.setString(2, objet.getNumeroTel());
         	requete.setString(3, objet.getNumeroFax());
         	requete.setString(4, objet.getEmail());
         	requete.setLong(5, ((ClientMoral)objet).getSiret());
-        	requete.setInt(6, objet.getAdresse().getIdAdd());
-        	requete.setInt(7, objet.getLogin().getIdLog());
         	
-        	 requete.executeUpdate();
+        	try
+            {
+                   String temp = adresse.getPays();
+            }
+            catch (NullPointerException e)
+            {
+               adresseDaoSql.create(objet.getAdresse());
+            } 
+        	finally
+            {
+                   requete.setInt(6, objet.getAdresse().getIdAdd());
+            }
+        	
+        	if(!(objet.getLogin()==null))
+			{
+        		requete.setInt(7, objet.getLogin().getIdLog());
+			}
+        	else{
+        		requete.setString(7, null);
+    		}
+        	int i = requete.executeUpdate();
+
+             // je l'exÃ©cute et je teste si elle a était effectuée
+             if (i > 0)
+             {
+                 ResultSet generatedKeys = requete.getGeneratedKeys();
+                 if (generatedKeys.next())
+                 {
+                     objet.setIdCli(generatedKeys.getInt(1));
+                 }
+             }
+        		
+        	
         
 		}
 		 catch (ClassNotFoundException e)
