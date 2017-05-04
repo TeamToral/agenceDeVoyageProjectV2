@@ -5,6 +5,7 @@ package agence;
 
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Scanner;
 
 import agence.dao.AdresseDao;
 import agence.dao.AdresseDaoSql;
@@ -60,6 +61,35 @@ public class MainDB
 	 */
 	public static void main(String[] args)
 	{
+		/* mise en place pour la prochaine fois
+		int userResp = -1;
+		Scanner lecteur = new Scanner(System.in);
+		
+		while ( userResp != 100 )
+		{
+			System.out.println("choisissez une action");
+			System.out.println("1-création login");
+			
+			userResp = lecteur.nextInt();
+			
+			if ( userResp == 1 )
+			{
+				// création de login
+				// avec appelle des méthodes pour la création d'un login
+			}
+			else if( userResp == 100 )
+			{
+				// on ne fait rien c'est juste pour ne pas entrer dans le else
+			}
+			else
+			{
+				System.err.println("Désolé votre entré n'est pas définit");
+			}
+		}
+		
+		lecteur.close();
+		*/
+		
 		// J'instancie le dao SQL des adresses
 		AdresseDao adresseDao = new AdresseDaoSql();
 		// J'appelle la mÃ©thode findAll pour rÃ©cupÃ©rer toutes les adresses
