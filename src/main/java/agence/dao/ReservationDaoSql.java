@@ -330,10 +330,9 @@ public class ReservationDaoSql extends DaoSQL implements ReservationDao
             else
             {
                 requete = conn.prepareStatement(
-                        "insert into reservation (dateReservation, numero, idVol, idPassager, idClient)" + " VALUES(?,?,?,?,?)");
-                requete.setInt(3, reservation.getVol().getIdVol());
-                requete.setInt(4, reservation.getPassager().getIdPas());
-                requete.setInt(5, reservation.getClient().getIdCli());
+                        "insert into reservation (dateReservation, numero, idPassager, idClient)" + " VALUES(?,?,?,?)");              
+                requete.setInt(3, reservation.getPassager().getIdPas());
+                requete.setInt(4, reservation.getClient().getIdCli());
             }
 
             
