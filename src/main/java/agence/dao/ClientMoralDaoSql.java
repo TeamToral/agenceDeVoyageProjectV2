@@ -109,4 +109,25 @@ public class ClientMoralDaoSql extends ClientDaoSql
         return objClient;
     }
 
+	@Override
+	public void create(Client objet)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Client update(Client obj)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Client obj)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

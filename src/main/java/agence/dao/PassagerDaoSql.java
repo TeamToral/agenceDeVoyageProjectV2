@@ -118,4 +118,25 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
         return passager;
     }
 
+	@Override
+	public void create(Passager objet)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Passager update(Passager obj)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Passager obj)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }
