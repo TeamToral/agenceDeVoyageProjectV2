@@ -1,11 +1,14 @@
 package agence.dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import agence.model.ClientPhysique;
 import agence.model.Login;
 
 public class LoginDaoSql extends DaoSQL implements LoginDao
@@ -91,7 +94,55 @@ public class LoginDaoSql extends DaoSQL implements LoginDao
 	@Override
 	public void create(Login objet)
 	{
-		// TODO Auto-generated method stub
+Connection conn = null;
+		
+		try{
+		
+		Class.forName("com.mysql.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "password");
+        // Crééer ma requetes d'insertion INSERT INTO
+        PreparedStatement requete;
+       
+        requete = conn
+                .prepareStatement("insert into login (login,motDePasse,admin)" + " VALUES(?,?,?)",new String[] {"id"});
+        	requete.setString(1, objet.getLogin());
+        	requete.setString(2,objet.getMotDePasse());
+        	requete.setBoolean(3, objet.isAdmin());    	  	
+        	int i =requete.executeUpdate();
+        	if(i>0)
+        	{
+        		ResultSet generatedKeys=requete.getGeneratedKeys();
+        		if(generatedKeys.next())
+        		{
+        			objet.setIdLog(generatedKeys.getInt(1));
+        		}
+        				
+        	}
+
+		}
+		 catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
 		
 	}
 
