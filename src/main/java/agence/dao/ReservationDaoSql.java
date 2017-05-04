@@ -5,16 +5,19 @@ package agence.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Date;
 
 import agence.model.Client;
 import agence.model.EtatReservation;
 import agence.model.Passager;
 import agence.model.Reservation;
+import agence.dao.ReservationDao;
 
 /**
  * @author Seme
@@ -307,25 +310,147 @@ public class ReservationDaoSql extends DaoSQL implements ReservationDao
         return listeBO;
     }
 
-	@Override
-	public void create(Reservation objet)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void create(Reservation reservation)
+    {
+        Connection conn = null;
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "");
+            // Créer ma requête d'insertion INSERT INTO
+            PreparedStatement requete;
+            // je teste si l'élève est lié à un vol, client, passager
+            if (reservation.getPassager() == null)
+            {
+                requete = conn
+                        .prepareStatement("insert into reservation (dateReservation, numero)" + " VALUES(?,?)");
 
-	@Override
-	public Reservation update(Reservation obj)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+            }
+            else
+            {
+                requete = conn.prepareStatement(
+                        "insert into reservation (dateReservation, numero, idVol, idPassager, idClient)" + " VALUES(?,?,?,?,?)");
+                requete.setInt(3, reservation.getVol().getIdVol());
+                requete.setInt(4, reservation.getPassager().getIdPas());
+                requete.setInt(5, reservation.getClient().getIdCli());
+            }
 
-	@Override
-	public void delete(Reservation obj)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+            
+            requete.setDate(1, reservation.getDate());
+            requete.setString(2, reservation.getNumero());
+           
+            // je l'exécute
+            requete.executeUpdate();
 
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see formation.dao.Dao#update(java.lang.Object)
+     */
+    @Override
+    public Reservation update(Reservation reservation)
+    {
+        Connection conn = null;
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "");
+
+            PreparedStatement ps = conn
+                    .prepareStatement("update reservation set dateReservation=?,numero=? where idResa = ?");
+
+            ps.setInt(3, reservation.getIdRes());
+
+            ps.setDate(1, reservation.getDate());
+            ps.setString(2, reservation.getNumero());
+            
+            ps.executeUpdate();
+
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return reservation;
+    }
+
+    @Override
+    public void delete(Reservation reservation)
+    {
+        Connection conn = null;
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "");
+
+            PreparedStatement ps = conn.prepareStatement("delete from reservation where idResa = ?");
+            ps.setInt(1, reservation.getIdRes());
+
+            ps.executeUpdate();
+
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    
 }
