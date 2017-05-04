@@ -1,6 +1,6 @@
 package agence.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Réservation d'un vol pour un passager effectuée par un client

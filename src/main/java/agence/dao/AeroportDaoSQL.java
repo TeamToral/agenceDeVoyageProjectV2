@@ -1,5 +1,7 @@
 package agence.dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +24,7 @@ public class AeroportDaoSQL extends DaoSQL implements AeroportDao
 
             PreparedStatement ps = connexion
                     .prepareStatement("SELECT * FROM aeroport");
-            // 4. Execution de la requÃªte
+            // 4. Execution de la requête
             ResultSet tuple = ps.executeQuery();
             // 5. Parcoutuple de l'ensemble des rÃ©sultats (ResultSet) pour
             // rÃ©cupÃ©rer les valeutuple des colonnes du tuple qui correspondent
@@ -76,5 +78,147 @@ public class AeroportDaoSQL extends DaoSQL implements AeroportDao
 
         return aeroport;
     }
+
+	@Override
+	public void create(Aeroport aeroport)
+	{
+		Connection conn = null;
+        try
+        {
+        	Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "password");
+            
+            // Créer ma requête d'insertion INSERT INTO
+            PreparedStatement requete;
+            String sql = "insert into aeroport (nom)" + " VALUES(?)";
+                requete = conn
+                        .prepareStatement(sql, new String[] { "id" }/*Statement.RETURN_GENERATED_KEYS*/);
+
+
+            
+            requete.setString(1, aeroport.getNom());
+           
+
+            // je l'exécute
+            
+           int i = requete.executeUpdate();
+            if (i > 0)
+            { 
+            	ResultSet generatedKeys = requete.getGeneratedKeys();
+            	if (generatedKeys.next())
+            	{
+            		aeroport.setIdAer(generatedKeys.getInt(1));
+            	}
+            }
+            
+
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        	
+        }
+
+
+	@Override
+	public Aeroport update(Aeroport aeroport)
+	{
+		Connection conn = null;
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "password");
+
+            PreparedStatement ps = conn
+                    .prepareStatement("update aeroport set nom=? where idAero = ?");
+
+           
+            ps.setLong(2, aeroport.getIdAer());
+            
+            ps.setString(1, aeroport.getNom());
+            
+
+            ps.executeUpdate();
+
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        
+		return aeroport;
+	}
+
+	@Override
+	public void delete(Aeroport aeroport)
+	{
+		Connection conn = null;
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "password");
+
+            PreparedStatement ps = conn.prepareStatement("delete from aeroport where idAer = ?");
+            ps.setLong(1, aeroport.getIdAer());
+
+            ps.executeUpdate();
+
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+		
+	}
 
 }

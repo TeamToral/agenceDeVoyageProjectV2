@@ -26,5 +26,25 @@ public interface Dao<T, PK>
      * @return L'objet métier trouvé
      */
     T findById(PK id);
+    
+    /**
+     * Retourne nouvel un objet métier
+     * 
+     * @param objet metier � cr�er
+     */
+	void create(T objet);
+	
+	/**
+	 * Retourne un objet métier mis à jour
+	 * @param obj L'objet à mettre à jour
+	 * @return L'objet métier mis à jour
+	 */
+	T update(T obj);
+	
+	/**
+	 * Supprime un objet métier de la source de données
+	 * @param obj L'objet à supprimer
+	 */
+	void delete(T obj);
 
 }

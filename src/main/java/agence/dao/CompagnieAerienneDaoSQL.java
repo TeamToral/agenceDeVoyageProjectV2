@@ -79,4 +79,25 @@ public class CompagnieAerienneDaoSQL extends DaoSQL
         return compagnieAerienne;
     }
 
+	@Override
+	public void create(CompagnieAerienne objet)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public CompagnieAerienne update(CompagnieAerienne obj)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(CompagnieAerienne obj)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

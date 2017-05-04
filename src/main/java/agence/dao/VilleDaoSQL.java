@@ -77,4 +77,25 @@ public class VilleDaoSQL extends DaoSQL implements VilleDao
         return ville;
     }
 
+	@Override
+	public void create(Ville objet)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Ville update(Ville obj)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Ville obj)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }
