@@ -105,7 +105,7 @@ public class MainDB
 		adresseTemp.setCodePostal("64140");
 		adresseTemp.setVille("Pau");
 		adresseTemp.setPays("France");
-
+// bouillashake
 		AdresseDaoSql adresseDaoSql = new AdresseDaoSql();
 		adresseDaoSql.create(adresseTemp);
 
