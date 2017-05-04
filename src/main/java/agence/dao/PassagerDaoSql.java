@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import agence.model.Adresse;
 import agence.model.Passager;
 import agence.model.Reservation;
 
@@ -123,23 +124,39 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
 	public void create(Passager passager)
 	{
 		
+		
 		try
 		{
-
+			AdresseDaoSql adresseDao = new AdresseDaoSql();
 			PreparedStatement requete;
-
+			
+			Adresse adresse = new Adresse();
+			adresse = adresseDao.findById(passager.getAdresse().getIdAdd());
+						
 			// On prepare la requete de creation
-			requete = connexion.prepareStatement("insert into passager (nom,prenom,idAdd)" + " VALUES(?,?,?)");
+			requete = connexion.prepareStatement("insert into passager (nom,prenom,idAdd)" + " VALUES(?,?,?)", new String[] { "id" }/*Statement.RETURN_GENERATED_KEYS*/);
 
+			
 			requete.setString(1, passager.getNom());
 			requete.setString(2, passager.getPrenom());
 			// Je convertis une java.util.Date en java.sql.Date
-			requete.setInt(3, passager.getAdresse().getIdAdd());
+			
+			try
+			{
+				String temp = adresse.getPays();
+			}
+			catch (NullPointerException e)
+			{
+				adresseDao.create(passager.getAdresse());
+			} finally
+			{
+				requete.setInt(3, passager.getAdresse().getIdAdd());
+			}
+			
 
-			int i = requete.executeUpdate();
 
 			// je l'exÃ©cute et je teste si elle a était effectuée
-			if (i > 0)
+			if (requete.executeUpdate() > 0)
 			{
 				ResultSet generatedKeys = requete.getGeneratedKeys();
 				if (generatedKeys.next())
@@ -156,13 +173,7 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
 			e.printStackTrace();
 		} finally
 		{
-			try
-			{
-				connexion.close();
-			} catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
+
 
 		}
 
@@ -174,14 +185,13 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
 		
 		try
 		{
-			PreparedStatement ps = connexion
-					.prepareStatement("update passager set nom=?,prenom=?,idAdd=? where idPassager = ?");
+			PreparedStatement ps = connexion.prepareStatement("update passager set nom=?,prenom=? where idPassager = ?");
 
-			ps.setLong(6, passager.getIdPas());
+			ps.setLong(3, passager.getIdPas());
 
 			ps.setString(1, passager.getNom());
 			ps.setString(2, passager.getPrenom());
-			ps.setInt(3, passager.getAdresse().getIdAdd());
+			//ps.setInt(3, passager.getAdresse().getIdAdd());
 			
 			ps.executeUpdate();
 
@@ -190,13 +200,7 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
 			e.printStackTrace();
 		} finally
 		{
-			try
-			{
-				connexion.close();
-			} catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
+
 		}
 
 		return passager;
@@ -234,14 +238,7 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
         }
         finally
         {
-            try
-            {
-                connexion.close();
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
+
         }
 
 	}
