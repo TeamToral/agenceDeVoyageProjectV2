@@ -150,10 +150,10 @@ public class AeroportDaoSQL extends DaoSQL implements AeroportDao
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "password");
 
             PreparedStatement ps = conn
-                    .prepareStatement("update aeroport set aeroport=?,nom=? where idAer = ?");
+                    .prepareStatement("update aeroport set nom=? where idAero = ?");
 
            
-            ps.setLong(5, aeroport.getIdAer());
+            ps.setLong(2, aeroport.getIdAer());
             
             ps.setString(1, aeroport.getNom());
             
