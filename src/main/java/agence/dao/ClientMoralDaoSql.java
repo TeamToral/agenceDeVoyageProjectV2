@@ -3,6 +3,8 @@
  */
 package agence.dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +13,7 @@ import java.util.List;
 
 import agence.model.Client;
 import agence.model.ClientMoral;
+import agence.model.ClientPhysique;
 
 /**
  * @author Seme
@@ -112,7 +115,51 @@ public class ClientMoralDaoSql extends ClientDaoSql
 	@Override
 	public void create(Client objet)
 	{
-		// TODO Auto-generated method stub
+Connection conn = null;
+		
+		try{
+		
+		Class.forName("com.mysql.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/agence", "user", "password");
+        // Crééer ma requetes d'insertion INSERT INTO
+        PreparedStatement requete;
+       
+        requete = conn
+                .prepareStatement("insert into client (nom,numTel,numFax,eMAil,siret,idAdd,idLog)" + " VALUES(?,?,?,?,?,?,?)");
+        	requete.setString(1, objet.getNom());
+        	requete.setString(2, objet.getNumeroTel());
+        	requete.setString(3, objet.getNumeroFax());
+        	requete.setString(4, objet.getEmail());
+        	requete.setLong(5, ((ClientMoral)objet).getSiret());
+        	requete.setInt(6, objet.getAdresse().getIdAdd());
+        	requete.setInt(7, objet.getLogin().getIdLog());
+        	
+        	 requete.executeUpdate();
+        
+		}
+		 catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
 		
 	}
 

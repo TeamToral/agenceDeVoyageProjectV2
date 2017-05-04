@@ -20,6 +20,10 @@ public class ClientMoral extends Client
     {
         super(idCli);
     }
+    public ClientMoral()
+    {
+        super();
+    }
 
     /**
      * @return the siret
