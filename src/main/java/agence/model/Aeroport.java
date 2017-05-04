@@ -37,6 +37,12 @@ public class Aeroport
         this.nom = nom;
         this.idAer = idAer;
     }
+    
+    public Aeroport()
+    {
+       
+    }
+
 
     /**
      * Ajout d'une ville existante à la liste des villes desservies par

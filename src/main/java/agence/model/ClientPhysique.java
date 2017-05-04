@@ -16,6 +16,11 @@ public class ClientPhysique extends Client
     /**
      * @param idCli
      */
+    
+    public ClientPhysique()
+    {
+        super();
+    }
     public ClientPhysique(int idCli)
     {
         super(idCli);
