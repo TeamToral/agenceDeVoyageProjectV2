@@ -15,8 +15,8 @@ public class mainPassagerDao
 		List<Passager> listePassager = passagerDao.findAll();
 		Passager passager = passagerDao.findById(22);
 		
-		System.out.println(listePassager);
-		System.out.println(passager);
+		//System.out.println(listePassager);
+		//System.out.println(passager);
 		
 		Passager test = new Passager();
 		test.setNom("Reignoux");
@@ -36,6 +36,6 @@ public class mainPassagerDao
 		test.setNom("Schouwey");
 		passager = passagerDao.update(test);
 		
-		//passagerDao.delete(passager);
+		passagerDao.delete(passager);
     }
 }
